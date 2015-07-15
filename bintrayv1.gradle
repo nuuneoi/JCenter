@@ -21,13 +21,23 @@ artifacts {
     archives sourcesJar
 }
 
-// Bintray
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+// Bintray Properties. Gradle can read properties from anywhere
+
+def getBintrayUser(){
+  return hasProperty('bintray.user') ? bintray.user : ""
+}
+
+def getBintrayApiKey(){
+  return hasProperty('bintray.apikey') ? bintray.apikey : ""
+}
+
+def getGpgPassword(){
+  return hasProperty('bintray.gpg.password') ? bintray.gpg.password:  (hasProperty('signing.password') ? signing.password : "")
+}
 
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = getBintrayUser()
+    key = getBintrayApiKey()
 
     configurations = ['archives']
     pkg {
@@ -43,7 +53,7 @@ bintray {
             desc = libraryDescription
             gpg {
                 sign = true //Determines whether to GPG sign the files. The default is false
-                passphrase = properties.getProperty("bintray.gpg.password")
+                passphrase = getGpgPassword()
                 //Optional. The passphrase for GPG signing'
             }
         }
