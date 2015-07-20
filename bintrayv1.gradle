@@ -1,7 +1,49 @@
 apply plugin: 'com.jfrog.bintray'
 
-version = libraryVersion
+version = VERSION_NAME
 
+
+
+// Bintray Properties. Gradle can read properties from anywhere
+
+def getBintrayUserName(){
+  return hasProperty('bintrayUser') ? bintrayUser : ""
+}
+
+def getApiKey(){
+
+  return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
+}
+
+def getGpgPassword(){
+
+  return hasProperty('bintrayGpgPassword') ? bintrayGpgPassword  : ""
+}
+afterEvaluate{
+bintray {
+    user = getBintrayUserName()
+    key = getApiKey()
+
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = POM_NAME
+        desc = POM_DESCRIPTION
+        websiteUrl = POM_URL
+        vcsUrl = POM_SCM_URL
+        licenses = ["Apache-2.0"]
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = POM_DESCRIPTION
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = getGpgPassword()
+                //Optional. The passphrase for GPG signing'
+            }
+        }
+    }
+}
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
@@ -20,32 +62,4 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
-
-// Bintray
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        publish = true
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-            gpg {
-                sign = true //Determines whether to GPG sign the files. The default is false
-                passphrase = properties.getProperty("bintray.gpg.password")
-                //Optional. The passphrase for GPG signing'
-            }
-        }
-    }
 }
