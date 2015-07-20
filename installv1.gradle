@@ -1,6 +1,6 @@
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = publishedGroupId                               // Maven Group ID for the artifact
+group = GROUP                               // Maven Group ID for the artifact
 
 install {
     repositories.mavenInstaller {
@@ -8,32 +8,32 @@ install {
         pom {
             project {
                 packaging 'aar'
-                groupId publishedGroupId
-                artifactId artifact
+                groupId GROUP
+                artifactId POM_ARTIFACT_ID
 
                 // Add your description here
-                name libraryName
-                description libraryDescription
-                url siteUrl
+                name POM_NAME
+                description POM_DESCRIPTION
+                url POM_URL
 
                 // Set your license
                 licenses {
                     license {
-                        name licenseName
-                        url licenseUrl
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
                 }
                 developers {
                     developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
+                        id POM_DEVELOPER_ID
+                        name POM_DEVELOPER_NAME
+                        email DEVELOPER_EMAIL
                     }
                 }
                 scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
+                    connection POM_SCM_URL
+                    developerConnection POM_SCM_URL
+                    url POM_URL
 
                 }
             }
