@@ -45,7 +45,7 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = bintrayRepo
+        repoName = bintrayRepo
         name = bintrayName
         desc = libraryDescription
         websiteUrl = siteUrl
