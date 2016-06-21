@@ -44,7 +44,7 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     configurations = ['archives']
-    pkg {
+    pkg { 
         repo = bintrayRepo
         name = bintrayName
         desc = libraryDescription
