@@ -33,9 +33,12 @@ artifacts {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
+def userKey = "bintray.user"
+def apiKey = "bintray.user"
+
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = properties.hasProperty(userKey) ? properties.getProperty(userKey) : System.getenv(userKey)
+    key = properties.hasProperty(apiKey) ? properties.getProperty(apiKey) : System.getenv(apiKey)
 
     configurations = ['archives']
     pkg {
